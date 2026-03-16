@@ -1,1 +1,36 @@
-spring.application.name=nss-board
+server:
+  port: 8080
+
+spring:
+  application:
+    name: nss-board-app
+
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: jdbc:mysql://${RDS_ENDPOINT}:3306/nss?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=250&prepStmtCacheSqlLimit=2048&useServerPrepStmts=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${RDS_USER}
+    password: ${RDS_PASSWORD}
+
+    hikari:
+      pool-name: nss-app-dev
+      maximum-pool-size: 12
+      minimum-idle: 12
+      connection-timeout: 5000
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      validation-timeout: 1000
+
+  jpa:
+    defer-datasource-initialization: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: false
+        highlight_sql: false
+        show_sql: true
+        jdbc.time_zone: Asia/Seoul
